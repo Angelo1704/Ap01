@@ -81,7 +81,19 @@ routes.put("/AtualizarTime/:id", (req, res) => {
 });
 
 routes.get("/DeletarTime/:id", (req, res) => {
-  res.status(200).json({msg: "excluir"});
+//  res.status(200).json({msg: "excluir"});
+   if(isNaN(req.params.id)){
+      res.sendStatus(400);
+   }else{
+      const id = parseInt(req.params.id);
+      const index = DB.times.findIndex((c) => c.id == id); 
+      if (index == -1){
+         res.status(404).json({msg : "Time não encontrado"});
+      }else{
+         DB.times.splice(index, 1);
+         res.status(200).json({msg : "Time excluido"});
+      }
+   }
 });
 
 
